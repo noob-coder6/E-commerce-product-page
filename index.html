@@ -8,10 +8,10 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
+  <a href="#main-content" class="skip-link">Skip to main content</a>
   <header class="header">
     <div class="header__container">
-      <button class="header__menu-btn" aria-label="Open navigation menu" aria-expanded="false" aria-controls="nav-menu">
+      <button class="header__menu-btn" aria-label="Open navigation menu" aria-expanded="false" aria-controls="nav-menu" aria-haspopup="true">
         <img src="./images/icon-menu.svg" alt="" class="header__menu-icon--open">
       </button>
       <a href="/" class="header__logo">
@@ -30,7 +30,7 @@
         </ul>
       </nav>
       <div class="header__right">
-        <button class="header__cart-btn" aria-label="View shopping cart">
+        <button class="header__cart-btn" aria-label="View shopping cart" aria-haspopup="true" aria-expanded="false">
           <img src="./images/icon-cart.svg" alt="">
           <span class="header__cart-count" aria-live="polite"></span>
         </button>
@@ -48,7 +48,7 @@
     </div>
   </header>
 
-  <main class="main-content">
+  <main id="main-content" class="main-content">
     <div class="product">
       <section class="product__gallery" aria-label="Product gallery">
         <div class="product__image-main">
@@ -56,10 +56,10 @@
             <img src="./images/image-product-1.jpg" alt="Fall Limited Edition Sneakers" id="main-product-image">
           </button>
           <button class="gallery-nav gallery-nav--prev" aria-label="Previous image">
-            <img src="./images/icon-previous.svg" alt="">
+            <svg width="12" height="18" xmlns="http://www.w3.org/2000/svg"><path d="M11 1 3 9l8 8" stroke="#1D2026" stroke-width="3" fill="none" fill-rule="evenodd"/></svg>
           </button>
           <button class="gallery-nav gallery-nav--next" aria-label="Next image">
-            <img src="./images/icon-next.svg" alt="">
+            <svg width="13" height="18" xmlns="http://www.w3.org/2000/svg"><path d="m2 1 8 8-8 8" stroke="#1D2026" stroke-width="3" fill="none" fill-rule="evenodd"/></svg>
           </button>
         </div>
         <div class="product__thumbnails" role="group" aria-label="Product thumbnails">
@@ -111,15 +111,15 @@
   <div class="lightbox" role="dialog" aria-modal="true" aria-label="Product image lightbox" hidden>
     <div class="lightbox__content">
       <button class="lightbox__close-btn" aria-label="Close lightbox">
-        <svg width="14" height="15" xmlns="http://www.w3.org/2000/svg"><path d="m11.596.782 2.122 2.122L9.12 7.499l4.597 4.597-2.122 2.122L7 9.62l-4.595 4.597-2.122-2.122L4.878 7.5.282 2.904 2.404.782l4.595 4.596L11.596.782Z" fill="#FFF" fill-rule="evenodd"/></svg>
+        <svg width="14" height="15" xmlns="http://www.w3.org/2000/svg"><path d="m11.596.782 2.122 2.122L9.12 7.499l4.597 4.597-2.122 2.122L7 9.62l-4.595 4.597-2.122-2.122L4.878 7.5.282 2.904 2.404.782l4.595 4.596L11.596.782Z" fill-rule="evenodd"/></svg>
       </button>
       <div class="lightbox__image-main">
         <img src="./images/image-product-1.jpg" alt="Fall Limited Edition Sneakers" id="lightbox-main-image">
         <button class="gallery-nav gallery-nav--prev" aria-label="Previous image">
-          <img src="./images/icon-previous.svg" alt="">
+          <svg width="12" height="18" xmlns="http://www.w3.org/2000/svg"><path d="M11 1 3 9l8 8" stroke="#1D2026" stroke-width="3" fill="none" fill-rule="evenodd"/></svg>
         </button>
         <button class="gallery-nav gallery-nav--next" aria-label="Next image">
-          <img src="./images/icon-next.svg" alt="">
+          <svg width="13" height="18" xmlns="http://www.w3.org/2000/svg"><path d="m2 1 8 8-8 8" stroke="#1D2026" stroke-width="3" fill="none" fill-rule="evenodd"/></svg>
         </button>
       </div>
       <div class="lightbox__thumbnails" role="group" aria-label="Product thumbnails">
@@ -145,4 +145,4 @@
   </footer>
   <script src="script.js"></script>
 </body>
-</html>
+</html> 

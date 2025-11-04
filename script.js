@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   // --- DOM ELEMENTS ---
   const menuOpenBtn = document.querySelector('.header__menu-btn');
   const menuCloseBtn = document.querySelector('.header__menu-close-btn');
@@ -38,28 +38,30 @@ document.addEventListener('DOMContentLoaded', function() {
   ];
 
   // --- MOBILE NAVIGATION ---
-  menuOpenBtn.addEventListener('click', function() {
-    navMenu.setAttribute('aria-hidden', 'false');
+  menuOpenBtn.addEventListener('click', function () {
     navMenu.classList.add('open');
+    navMenu.setAttribute('aria-hidden', 'false');
+    menuOpenBtn.setAttribute('aria-expanded', 'true');
     document.body.classList.add('nav-open');
     menuCloseBtn.focus();
   });
 
-  const closeNavMenu = function() {
-    navMenu.setAttribute('aria-hidden', 'true');
+  const closeNavMenu = function () {
     navMenu.classList.remove('open');
+    navMenu.setAttribute('aria-hidden', 'true');
+    menuOpenBtn.setAttribute('aria-expanded', 'false');
     document.body.classList.remove('nav-open');
     menuOpenBtn.focus();
-  }
+  };
 
   menuCloseBtn.addEventListener('click', closeNavMenu);
 
-  navLinks.forEach(function(link) {
+  navLinks.forEach(function (link) {
     link.addEventListener('click', closeNavMenu);
   });
 
   // --- CART ---
-  cartBtn.addEventListener('click', function() {
+  cartBtn.addEventListener('click', function () {
     const isHidden = cartDropdown.hasAttribute('hidden');
     if (isHidden) {
       cartDropdown.removeAttribute('hidden');
@@ -70,14 +72,14 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
-  document.addEventListener('click', function(e) {
+  document.addEventListener('click', function (e) {
     if (!cartBtn.contains(e.target) && !cartDropdown.contains(e.target)) {
       cartDropdown.setAttribute('hidden', '');
       cartBtn.setAttribute('aria-expanded', 'false');
     }
   });
 
-  const updateCart = function() {
+  const updateCart = function () {
     if (cart.length === 0) {
       cartEmptyMsg.hidden = false;
       cartItemsContainer.innerHTML = '';
@@ -90,7 +92,7 @@ document.addEventListener('DOMContentLoaded', function() {
       cartItemsContainer.innerHTML = '';
       cartItemsContainer.hidden = false;
       let totalItems = 0;
-      cart.forEach(function(item, index) {
+      cart.forEach(function (item, index) {
         totalItems += item.quantity;
         const itemElement = document.createElement('div');
         itemElement.classList.add('cart-item');
@@ -104,10 +106,6 @@ document.addEventListener('DOMContentLoaded', function() {
             <img src="./images/icon-delete.svg" alt="">
           </button>
         `;
-        itemElement.querySelector('.cart-item__delete-btn').addEventListener('click', function() {
-          cart.splice(index, 1); // Remove this specific item
-          updateCart();
-        });
         cartItemsContainer.appendChild(itemElement);
       });
 
@@ -122,22 +120,32 @@ document.addEventListener('DOMContentLoaded', function() {
       cartCount.textContent = totalItems;
       cartCount.style.display = 'block';
     }
-  }
+  };
+
+  // Use event delegation for the delete button in the cart
+  cartItemsContainer.addEventListener('click', function (e) {
+    const deleteBtn = e.target.closest('.cart-item__delete-btn');
+    if (deleteBtn) {
+      // For this project, deleting any item clears the entire cart
+      cart = [];
+      updateCart();
+    }
+  });
 
   // --- QUANTITY SELECTOR ---
-  quantityIncreaseBtn.addEventListener('click', function() {
+  quantityIncreaseBtn.addEventListener('click', function () {
     quantity++;
     quantityValue.textContent = quantity;
   });
 
-  quantityDecreaseBtn.addEventListener('click', function() {
+  quantityDecreaseBtn.addEventListener('click', function () {
     if (quantity > 1) {
       quantity--;
       quantityValue.textContent = quantity;
     }
   });
 
-  addToCartBtn.addEventListener('click', function() {
+  addToCartBtn.addEventListener('click', function () {
     const product = {
       id: 'fall-sneakers-01',
       name: 'Fall Limited Edition Sneakers',
@@ -157,13 +165,17 @@ document.addEventListener('DOMContentLoaded', function() {
       cart.push(product);
     }
 
+    // Reset quantity after adding to cart for better UX
+    quantity = 1;
+    quantityValue.textContent = quantity;
+
     updateCart();
     cartDropdown.removeAttribute('hidden'); // Show cart after adding
     cartBtn.setAttribute('aria-expanded', 'true');
   });
 
   // --- IMAGE GALLERY & LIGHTBOX ---
-  const updateMainImage = function(index) {
+  const updateMainImage = function (index) {
     currentImageIndex = index;
     mainProductImage.src = productImages[index];
     mainProductImage.alt = `Product image ${index + 1}`;
@@ -176,35 +188,35 @@ document.addEventListener('DOMContentLoaded', function() {
     lightboxThumbnails.forEach((thumb, i) => {
       thumb.classList.toggle('active', i === currentImageIndex);
     });
-  }
+  };
 
-  galleryThumbnails.forEach(function(thumbnail, index) {
-    thumbnail.addEventListener('click', function() { updateMainImage(index); });
+  galleryThumbnails.forEach(function (thumbnail, index) {
+    thumbnail.addEventListener('click', function () { updateMainImage(index); });
   });
 
-  lightboxThumbnails.forEach(function(thumbnail, index) {
-    thumbnail.addEventListener('click', function() { updateMainImage(index); });
+  lightboxThumbnails.forEach(function (thumbnail, index) {
+    thumbnail.addEventListener('click', function () { updateMainImage(index); });
   });
 
-  const showNextImage = function() {
+  const showNextImage = function () {
     const nextIndex = (currentImageIndex + 1) % productImages.length;
     updateMainImage(nextIndex);
-  }
+  };
 
-  const showPrevImage = function() {
+  const showPrevImage = function () {
     const prevIndex = (currentImageIndex - 1 + productImages.length) % productImages.length;
     updateMainImage(prevIndex);
-  }
+  };
 
-  galleryNavNext.forEach(function(btn) { btn.addEventListener('click', showNextImage); });
-  galleryNavPrev.forEach(function(btn) { btn.addEventListener('click', showPrevImage); });
+  galleryNavNext.forEach(function (btn) { btn.addEventListener('click', showNextImage); });
+  galleryNavPrev.forEach(function (btn) { btn.addEventListener('click', showPrevImage); });
 
   // Lightbox open/close
   const focusableLightboxElements = lightbox.querySelectorAll('button');
   const firstFocusableEl = focusableLightboxElements[0];
   const lastFocusableEl = focusableLightboxElements[focusableLightboxElements.length - 1];
-  
-  const openLightbox = function() {
+
+  const openLightbox = function () {
     if (window.innerWidth > 768) {
       lightbox.removeAttribute('hidden');
       // Allow transition to happen before setting opacity
@@ -213,38 +225,38 @@ document.addEventListener('DOMContentLoaded', function() {
       }, 10);
       firstFocusableEl.focus();
     }
-  }
+  };
 
   lightboxOpenBtn.addEventListener('click', openLightbox);
 
-  const closeLightbox = function() {
+  const closeLightbox = function () {
     lightbox.style.opacity = '0';
     // Wait for transition to finish before hiding
-    lightbox.addEventListener('transitionend', function() {
+    lightbox.addEventListener('transitionend', function () {
       lightbox.setAttribute('hidden', '');
     }, { once: true });
     lightboxOpenBtn.focus();
-  }
+  };
 
   lightboxCloseBtn.addEventListener('click', closeLightbox);
 
 
   // Close lightbox with Escape key
-  document.addEventListener('keydown', function(e) {
+  document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape' && !lightbox.hasAttribute('hidden')) {
       closeLightbox();
     }
   });
 
   // Close lightbox by clicking the overlay
-  lightbox.addEventListener('click', function(e) {
+  lightbox.addEventListener('click', function (e) {
     if (e.target === lightbox) {
       closeLightbox();
     }
   });
 
   // Keyboard navigation for gallery
-  document.addEventListener('keydown', function(e) {
+  document.addEventListener('keydown', function (e) {
     // Trap focus inside the lightbox
     if (!lightbox.hasAttribute('hidden') && e.key === 'Tab') {
       if (e.shiftKey) { // if shift + tab
